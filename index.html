@@ -2323,11 +2323,13 @@ window.renderAdminDash = function(){
   const vendorMap={};
   leads.forEach(l=>{
     const v=l.vendor||'Sin asignar';
-    if(!vendorMap[v]) vendorMap[v]={total:0,ganados:0,perdidos:0,fire:0};
+    if(!vendorMap[v]) vendorMap[v]={total:0,ganados:0,perdidos:0,fire:0,warm:0,cold:0};
     vendorMap[v].total++;
     if(l.stage==='ganado') vendorMap[v].ganados++;
-    if(l.stage==='perdido') vendorMap[v].perdidos++;
-    if(l.intensity==='fire'&&l.stage!=='ganado'&&l.stage!=='perdido') vendorMap[v].fire++;
+    else if(l.stage==='perdido') vendorMap[v].perdidos++;
+    else if(l.intensity==='fire') vendorMap[v].fire++;
+    else if(l.intensity==='warm') vendorMap[v].warm++;
+    else vendorMap[v].cold++;
   });
   const body=document.getElementById('dashBody');
   if(!body) return;
@@ -2348,16 +2350,27 @@ window.renderAdminDash = function(){
     </div>
     <div>
       <div class="dash-section-title">Por vendedor</div>
-      ${Object.entries(vendorMap).sort((a,b)=>b[1].ganados-a[1].ganados).map(([v,s])=>`
-        <div class="dash-vendor-row">
-          <div class="dash-vendor-name">${v}</div>
-          <div class="dash-vendor-stats">
-            <span class="dash-vendor-stat"><b style="color:var(--go)">${s.ganados}</b> ganados</span>
-            <span class="dash-vendor-stat"><b style="color:var(--fire)">${s.fire}</b> 🔥</span>
-            <span class="dash-vendor-stat"><b>${s.total}</b> leads</span>
-            <span class="dash-vendor-stat" style="${s.perdidos>0?'color:var(--fire)':''}">${s.perdidos>0?`<b>${s.perdidos}</b> perdidos`:''}</span>
+      ${Object.entries(vendorMap).sort((a,b)=>b[1].ganados-a[1].ganados).map(([v,s])=>{
+        const pGan=s.total?Math.round(s.ganados/s.total*100):0;
+        const pPer=s.total?Math.round(s.perdidos/s.total*100):0;
+        const activos=s.total-s.ganados-s.perdidos;
+        return `
+        <div class="dash-vendor-row" style="flex-direction:column;align-items:stretch;gap:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div class="dash-vendor-name">${v}</div>
+            <div style="font-size:11px;color:var(--text3)">${s.total} leads total</div>
           </div>
-        </div>`).join('')}
+          <div class="dash-vendor-stats">
+            <span class="dash-vendor-stat"><b style="color:var(--go)">${s.ganados}</b> ganados <span style="color:var(--go);font-size:10px">(${pGan}%)</span></span>
+            <span class="dash-vendor-stat"><b style="color:var(--text3)">${s.perdidos}</b> perdidos <span style="color:var(--text3);font-size:10px">(${pPer}%)</span></span>
+            <span class="dash-vendor-stat" style="margin-left:auto"><b style="color:var(--text2)">${activos}</b> <span style="color:var(--text3)">activos</span></span>
+          </div>
+          <div class="dash-vendor-stats" style="gap:10px">
+            <span class="dash-vendor-stat"><b style="color:var(--fire)">${s.fire}</b> 🔥 calientes</span>
+            <span class="dash-vendor-stat"><b style="color:var(--amber)">${s.warm}</b> 🌡 tibios</span>
+            <span class="dash-vendor-stat"><b style="color:var(--cold)">${s.cold}</b> ❄️ fríos</span>
+          </div>
+        </div>`;}).join('')}
     </div>
   `;
 }
