@@ -1193,7 +1193,8 @@ let wsNotifications = [];  // notificaciones [{id,vendedor,leadId,msg,leida,ts}]
 const grad = n=>{let h=0;for(let i=0;i<n.length;i++)h=((h<<5)-h)+n.charCodeAt(i);return GRADS[Math.abs(h)%GRADS.length]};
 const ini  = n=>n.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
 function timeAgo(m){if(m<1)return 'ahora';if(m<60)return `${Math.round(m)}m`;if(m<1440)return `${Math.round(m/60)}h`;return `${Math.round(m/1440)}d`}
-function nowTime(){return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}
+function nowTime(){const n=new Date();return `${String(n.getDate()).padStart(2,'0')}/${String(n.getMonth()+1).padStart(2,'0')} ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`}
+function nowISO(){return new Date().toISOString().slice(0,10)}
 function minsSince(fecha,hora){
   if(!fecha)return 9999;
   try{const[d,m,y]=(fecha||'').split('/').map(Number);const[hh,mm]=(hora||'00:00').split(':').map(Number);const dt=new Date(y,m-1,d,hh,mm);return Math.max(0,Math.round((Date.now()-dt.getTime())/60000))}catch{return 9999}
@@ -2060,8 +2061,8 @@ window.qa = async function(id,action,btnEl){
     'pidio-precio':()=>{st.stage='interesado';st.intensity='fire';st.score=Math.min(99,st.score+35);st.history.push({dot:'o',text:'💰 Pidió precio',time:t});st.lastMins=0;st.lastEvent='pidio-precio'},
     'objecion':   ()=>{st.stage='cierre';st.intensity='fire';st.score=Math.min(99,st.score+20);st.history.push({dot:'r',text:'⚡ Tiene objeción — trabajar cierre',time:t});st.lastMins=0;st.lastEvent='objecion'},
     'pedir-pago': ()=>{st.stage='cierre';st.intensity='fire';st.score=95;st.history.push({dot:'r',text:'💳 Se envió link/método de pago',time:t});st.lastMins=0;st.lastEvent='pedir-pago'},
-    'ganado':     ()=>{st.stage='ganado';st.intensity='fire';st.score=100;st.history.push({dot:'g',text:'🎉 ¡Lead GANADO — venta cerrada!',time:t});st.lastEvent='ganado'},
-    'perdido':    ()=>{st.stage='perdido';st.intensity='cold';st.score=0;st.history.push({dot:'n',text:'❌ Lead marcado como perdido',time:t});st.lastEvent='perdido'},
+    'ganado':     ()=>{st.stage='ganado';st.intensity='fire';st.score=100;st.fechaGanado=nowISO();st.history.push({dot:'g',text:'🎉 ¡Lead GANADO — venta cerrada!',time:t});st.lastEvent='ganado'},
+    'perdido':    ()=>{st.stage='perdido';st.intensity='cold';st.score=0;st.fechaPerdido=nowISO();st.history.push({dot:'n',text:'❌ Lead marcado como perdido',time:t});st.lastEvent='perdido'},
   };
   if(act[action])act[action]();
 
@@ -2088,11 +2089,11 @@ window.setLeadStage = async function(id,stage){
   const st=getState(id);const l=allLeads.find(x=>x.id===id);const t=nowTime();
   st.stage=stage;
   if(stage==='ganado'){
-    st.score=100;st.intensity='fire';
+    st.score=100;st.intensity='fire';st.fechaGanado=nowISO();
     if(!isAdmin){st.pendienteValidacion=true;st.validado=false;}
     else{st.pendienteValidacion=false;st.validado=true;}
   } else if(stage==='perdido'){
-    st.score=0;st.intensity='cold';
+    st.score=0;st.intensity='cold';st.fechaPerdido=nowISO();
     st.pendienteValidacion=false;
   } else {
     st.score=calcFinalScore(stage,st.intensity,l?.baseScore||50);
@@ -2297,9 +2298,12 @@ window.renderAdminDash = function(){
   if(pending==='validated') leads=leads.filter(l=>l.validado);
   if(from||to){
     leads=leads.filter(l=>{
-      if(!l.fecha) return false;
+      // For ganado/perdido use the closure date, not creation date
+      let d=l.stage==='ganado'&&l.fechaGanado ? l.fechaGanado
+           :l.stage==='perdido'&&l.fechaPerdido ? l.fechaPerdido
+           :l.fecha||'';
+      if(!d) return false;
       // fecha format: DD/MM/YYYY or YYYY-MM-DD
-      let d=l.fecha;
       if(d.includes('/')){const p=d.split('/');d=`${p[2]||'2024'}-${(p[1]||'01').padStart(2,'0')}-${(p[0]||'01').padStart(2,'0')}`;}
       if(from&&d<from) return false;
       if(to&&d>to) return false;
