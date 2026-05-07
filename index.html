@@ -2229,7 +2229,7 @@ window.markNotifsRead = async function(){
 window.openAdminDash = function(){
   const el=document.getElementById('adminDashScreen');
   if(!el) return;
-  el.classList.add('open');
+  el.style.display='flex';
   // Populate vendor filter
   const vsel=document.getElementById('dashVendor');
   if(vsel){
@@ -2240,7 +2240,7 @@ window.openAdminDash = function(){
 }
 window.closeAdminDash = function(){
   const el=document.getElementById('adminDashScreen');
-  if(el) el.classList.remove('open');
+  if(el) el.style.display='none';
 }
 window.clearDashFilters = function(){
   ['dashVendor','dashStage','dashTemp','dashFrom','dashTo'].forEach(id=>{
@@ -2715,7 +2715,7 @@ window.downloadTemplate = function(){
    SHOW/HIDE SCREENS
 ══════════════════════════════════════════ */
 function showOnly(id){
-  ['authScreen','wsScreen','uploadScreen','vendorScreen','wsCodeScreen','mainContent','empresaScreen','nombreScreen','adminDashScreen']
+  ['authScreen','wsScreen','uploadScreen','vendorScreen','wsCodeScreen','mainContent','empresaScreen','nombreScreen']
     .forEach(s=>{
       const el=document.getElementById(s);
       if(!el)return;
