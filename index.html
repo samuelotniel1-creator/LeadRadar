@@ -844,6 +844,7 @@ html[style*="--bg:#f9f9f9"] .opp-row:hover{box-shadow:0 3px 12px rgba(0,0,0,0.10
     <div class="list-header">
       <div class="list-title" id="listTitle">Todos los leads</div>
       <span class="list-count" id="listCount">0</span>
+      <button id="btnPendingFilter" onclick="togglePendingFilter()" style="display:none;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--r2);background:var(--surface);border:1px solid var(--border2);color:var(--text2);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;flex-shrink:0">⏳ Pendientes</button>
       <button onclick="downloadCSV()" title="Descargar CSV con filtros activos" style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--r2);background:var(--surface);border:1px solid var(--border2);color:var(--text2);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;flex-shrink:0" onmouseover="this.style.borderColor='rgba(34,197,94,.4)';this.style.color='var(--go)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         CSV
@@ -1547,6 +1548,7 @@ function updateCmd(){
    ADMIN FILTERS
 ══════════════════════════════════════════ */
 let adminFilterVendor='', adminFilterTemp='', adminFilterRecent='', adminFilterTag='', adminFilterEvent='';
+let filterPendingValidation=false;
 
 function buildAdminVendorFilter(){
   if(!isAdmin) return;
@@ -1576,6 +1578,7 @@ function getFiltered(){
     if(activeStage==='all'&&l.stage==='perdido')return false;
     if(activeStage==='urgent'&&!((l.stage==='interesado'||l.stage==='cierre')&&l.intensity==='fire'))return false;
     if(activeStage!=='all'&&activeStage!=='urgent'&&l.stage!==activeStage)return false;
+    if(filterPendingValidation&&!(l.pendienteValidacion&&!l.validado))return false;
     if(adminFilterVendor&&l.vendor!==adminFilterVendor)return false;
     if(adminFilterTemp&&l.intensity!==adminFilterTemp)return false;
     if(adminFilterRecent){
@@ -1602,6 +1605,15 @@ window.setStage = function(btn){
   btn.classList.add('active');
   const titles={all:'Todos los leads',urgent:'🔥 Urgentes',nuevo:'Nuevos',contactado:'Contactados',calificado:'Calificados',interesado:'Interesados',cierre:'En cierre',ganado:'Ganados',perdido:'Perdidos'};
   document.getElementById('listTitle').textContent=titles[activeStage]||activeStage;
+  // Pending filter button: only visible for admin on Ganados tab
+  filterPendingValidation=false;
+  const pfBtn=document.getElementById('btnPendingFilter');
+  if(pfBtn){
+    pfBtn.style.display=(isAdmin&&activeStage==='ganado')?'flex':'none';
+    pfBtn.style.background='var(--surface)';
+    pfBtn.style.borderColor='var(--border2)';
+    pfBtn.style.color='var(--text2)';
+  }
   // Update mobile header badge
   const badge = document.getElementById('hdStageBadge');
   if(badge){
@@ -1612,6 +1624,16 @@ window.setStage = function(btn){
   selectedId=null;
   document.getElementById('rpEmpty').style.display='flex';
   document.getElementById('rpFilled').style.display='none';
+  renderList();
+}
+window.togglePendingFilter = function(){
+  filterPendingValidation=!filterPendingValidation;
+  const pfBtn=document.getElementById('btnPendingFilter');
+  if(pfBtn){
+    pfBtn.style.background=filterPendingValidation?'rgba(245,158,11,.15)':'var(--surface)';
+    pfBtn.style.borderColor=filterPendingValidation?'rgba(245,158,11,.5)':'var(--border2)';
+    pfBtn.style.color=filterPendingValidation?'var(--amber)':'var(--text2)';
+  }
   renderList();
 }
 
