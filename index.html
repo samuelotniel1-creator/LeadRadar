@@ -452,6 +452,63 @@ header{display:flex;align-items:center;gap:16px;padding:0 24px;height:52px;flex-
 .cta-share:hover{border-color:rgba(77,158,245,.4);color:var(--cold);background:var(--cold-lo)}
 .cta-share.copied{border-color:rgba(34,197,94,.4);color:var(--go);background:var(--go-lo)}
 
+/* ══ COPY BUTTON ══ */
+.copy-btn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:4px;border:1px solid var(--border2);background:var(--surface);color:var(--text3);cursor:pointer;transition:all .14s;flex-shrink:0;padding:0}
+.copy-btn:hover{background:var(--card2);color:var(--amber);border-color:rgba(245,158,11,.35)}
+.copy-btn.copied{background:var(--go-lo);color:var(--go);border-color:rgba(34,197,94,.35)}
+
+/* ══ CUSTOM TAG ══ */
+.custom-tag-add{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:600;border:1px dashed var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .13s;font-family:'Bricolage Grotesque',sans-serif}
+.custom-tag-add:hover{border-color:rgba(245,158,11,.5);color:var(--amber);background:var(--amber-lo)}
+.ctag-form{display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap}
+.ctag-input{flex:1;min-width:80px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r3);padding:4px 9px;font-size:12px;font-family:'Bricolage Grotesque',sans-serif;color:var(--text);outline:none;transition:border-color .15s}
+.ctag-input:focus{border-color:rgba(245,158,11,.4)}
+.ctag-cls-btn{width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;flex-shrink:0;transition:all .13s}
+.ctag-cls-btn.sel{border-color:#fff;transform:scale(1.15)}
+.ctag-save{padding:4px 10px;border-radius:var(--r3);border:none;background:var(--amber);color:#000;font-family:'Bricolage Grotesque',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .15s}
+.ctag-save:hover{background:#e08d0a}
+.ctag-cancel{padding:4px 8px;border-radius:var(--r3);border:1px solid var(--border2);background:transparent;color:var(--text3);font-family:'Bricolage Grotesque',sans-serif;font-size:11.5px;cursor:pointer}
+
+/* ══ NOTIF BADGE ══ */
+.notif-badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:var(--fire);color:#fff;font-size:9px;font-weight:800;margin-left:4px;padding:0 4px;flex-shrink:0}
+
+/* ══ COMPROBANTE ══ */
+.comprobante-field{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:7px 10px;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;color:var(--text);outline:none;transition:border-color .15s;margin-top:4px}
+.comprobante-field:focus{border-color:rgba(34,197,94,.45)}
+.comprobante-field::placeholder{color:var(--text3)}
+.comprobante-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--cold);text-decoration:none;margin-top:4px;word-break:break-all}
+.comprobante-link:hover{opacity:.7}
+
+/* ══ VALIDACION ══ */
+.btn-validar{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;border-radius:var(--r2);background:var(--go);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;margin-top:6px}
+.btn-validar:hover{background:#16a34a;transform:translateY(-1px)}
+.pendiente-banner{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);border-radius:var(--r2);padding:9px 12px;font-size:12px;color:var(--amber);text-align:center;margin-top:6px;line-height:1.4}
+.validado-banner{background:var(--go-lo);border:1px solid rgba(34,197,94,.3);border-radius:var(--r2);padding:9px 12px;font-size:12px;color:var(--go);text-align:center;margin-top:6px}
+
+/* ══ ADMIN DASH ══ */
+.admin-dash-overlay{position:fixed;inset:0;z-index:450;background:var(--bg);display:none;flex-direction:column;overflow:hidden}
+.admin-dash-overlay.open{display:flex;animation:fadeUp .18s ease both}
+.admin-dash-hdr{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+.admin-dash-title{font-size:15px;font-weight:800;color:var(--text);letter-spacing:-.2px}
+.admin-dash-close{margin-left:auto;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r3);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:16px;transition:all .13s}
+.admin-dash-close:hover{background:var(--fire-lo);color:var(--fire);border-color:rgba(255,77,46,.25)}
+.admin-dash-filters{display:flex;flex-wrap:wrap;gap:7px;padding:10px 18px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2);align-items:center}
+.admin-dash-filters select,.admin-dash-filters input[type=date]{background:var(--surface);border:1px solid var(--border2);color:var(--text2);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;padding:4px 8px;border-radius:var(--r3);outline:none;cursor:pointer;height:30px}
+.admin-dash-filters label{font-size:11px;color:var(--text3);font-weight:600;white-space:nowrap}
+.admin-dash-body{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px}
+.dash-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:13px 14px;text-align:center}
+.dash-card-n{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;line-height:1}
+.dash-card-l{font-size:10.5px;color:var(--text3);margin-top:4px;font-weight:500}
+.dash-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text3);margin-bottom:8px}
+.dash-vendor-row{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.dash-vendor-name{font-size:13px;font-weight:700;color:var(--text);flex:1}
+.dash-vendor-stats{display:flex;gap:10px;flex-wrap:wrap}
+.dash-vendor-stat{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.dash-vendor-stat b{color:var(--text)}
+.dash-empty{text-align:center;color:var(--text3);font-size:13px;padding:32px}
+@media(max-width:880px){.admin-dash-filters{padding:8px 12px}.admin-dash-body{padding:12px 14px}}
+
 /* ══ MODE SWITCH (Perfil / Asistente IA) ══ */
 .rp-mode-switch{display:flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:3px;flex-shrink:0}
 .rp-mode-btn{padding:4px 12px;border-radius:16px;border:none;font-family:'Bricolage Grotesque',sans-serif;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .18s;background:transparent;color:var(--text3);white-space:nowrap}
@@ -760,6 +817,8 @@ html[style*="--bg:#f9f9f9"] .opp-row:hover{box-shadow:0 3px 12px rgba(0,0,0,0.10
       </div>
       <div class="st-divider"></div>
       <div class="st-section">Equipo</div>
+      <button class="st-tab admin-sidebar-btn" id="sideMetricasBtn" style="display:none" onclick="openAdminDash()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Métricas<span class="notif-badge" id="pendValidBadge" style="display:none">0</span></button>
+      <button class="st-tab" id="notifTabBtn" style="display:none" onclick="markNotifsRead()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notificaciones<span class="notif-badge" id="notifBadge" style="display:none">0</span></button>
       <button class="st-tab" onclick="doSwitchVendor()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Cambiar vendedor</button>
       <button class="st-tab admin-sidebar-btn" id="sideUploadBtn" style="display:none" onclick="doAdminUpload()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Subir CSV</button>
       <button class="st-tab admin-sidebar-btn" id="sideNombreBtn" style="display:none" onclick="doOpenNombre()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mi nombre</button>
@@ -1124,6 +1183,8 @@ let unsub         = null;  // Firestore listener unsubscribe
 let empresaNombre = '';    // nombre de empresa para mensaje WA
 let empresaDesc   = '';    // descripcion de empresa para Asistente IA
 let adminDisplayName = ''; // nombre del admin para mostrarse en el sistema
+let customTags    = [];    // etiquetas personalizadas del workspace [{id,label,cls,createdBy}]
+let wsNotifications = [];  // notificaciones [{id,vendedor,leadId,msg,leida,ts}]
 
 /* ══════════════════════════════════════════
    UTILS
@@ -1271,6 +1332,9 @@ function subscribeToWorkspace(){
     const data = snap.data();
     const rawLeads = data.leads || [];
     const states   = data.leadStates || {};
+    customTags     = data.customTags || [];
+    wsNotifications = data.notificaciones || [];
+    updateNotifBadge();
     empresaNombre  = data.empresaNombre || ''; window._empresaNombre = empresaNombre;
     empresaDesc    = data.empresaDesc   || '';   window._empresaDesc   = empresaDesc;
 
@@ -1399,6 +1463,9 @@ function showDashboard(){
   document.getElementById('logoTag').textContent=isAdmin?'Admin':'Closer';
   if(isAdmin){
     document.querySelectorAll('.admin-sidebar-btn').forEach(b=>b.style.display='flex');
+  } else {
+    const nb=document.getElementById('notifTabBtn');
+    if(nb) nb.style.display='flex';
   }
   const mob = window.innerWidth <= 880;
   document.getElementById('mobMenuBtn').style.display = mob ? 'flex' : 'none';
@@ -1456,7 +1523,7 @@ async function saveState(id,st){
 /* ══════════════════════════════════════════
    COUNTS + CMD BAR
 ══════════════════════════════════════════ */
-function updateAll(skipList=false){updateCounts();updateCmd();if(!skipList)renderList()}
+function updateAll(skipList=false){updateCounts();updateCmd();if(!skipList)renderList();updateNotifBadge();}
 function updateCounts(){
   const ks=['nuevo','contactado','calificado','interesado','cierre','ganado','perdido'];
   const c={all:0,urgent:0};ks.forEach(k=>c[k]=0);
@@ -1726,6 +1793,8 @@ function renderDetail(l){
   if(l.ciudad)autoTags.push({label:l.ciudad,cls:'b'});
   const autoTagsHTML=autoTags.map(t=>`<span class="rtag ${t.cls}">${t.label}</span>`).join('');
   const manualTagsHTML=MANUAL_TAGS.map(t=>`<span class="rtag ${l.tags?.includes(t.id)?t.cls:''}" onclick="toggleTag(${l.id},'${t.id}')" style="cursor:pointer">${t.label}</span>`).join('');
+  const vendorCustomTags=customTags.filter(t=>isAdmin||t.createdBy===closerName);
+  const customTagsHTML=vendorCustomTags.map(t=>`<span class="rtag ${l.tags?.includes(t.id)?t.cls:''}" onclick="toggleTag(${l.id},'${t.id}')" style="cursor:pointer" title="Etiqueta de ${t.createdBy}">${t.label}</span>`).join('');
   const chipsHTML=Object.entries(STAGES).map(([k,v])=>`<button class="sc-chip" onclick="setLeadStage(${l.id},'${k}')" style="border-color:${v.color}44;background:${l.stage===k?v.color+'22':'transparent'};color:${l.stage===k?v.color:'var(--text3)'}">${v.label}</button>`).join('');
 
   // Store lead data for AI panel
@@ -1760,7 +1829,7 @@ function renderDetail(l){
           </div>
         </div>
         <div class="rp-name">${l.name}${l.lastCoachingMessage?`<button class="row-coaching-btn" data-msg="${encodeURIComponent(l.lastCoachingMessage)}" data-score="${l.score}" data-stage="${l.stage}" data-int="${l.intensity}" onclick="showCoachingFromBtn(this)" style="margin-left:6px">💬</button>`:''}</div>
-        ${waNum?`<a class="rp-phone" href="https://wa.me/${waNum}" target="_blank"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>${l.phone}</a>`:`<span style="font-size:11px;color:var(--text3)">Sin teléfono</span>`}
+        ${waNum?`<a class="rp-phone" href="https://wa.me/${waNum}" target="_blank"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>${l.phone}</a><button class="copy-btn" onclick="event.preventDefault();copyField('${l.phone}',this)" title="Copiar teléfono"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`:`<span style="font-size:11px;color:var(--text3)">Sin teléfono</span>`}
         <div class="rp-stage-row">
           <span class="rp-stage-badge" style="background:${stInfo.color}22;color:${stInfo.color}">${stInfo.label}</span>
           <span class="rp-int" style="background:${intInfo.bg};color:${intInfo.color}">${intInfo.label}</span>
@@ -1783,14 +1852,23 @@ function renderDetail(l){
           </div>
         </div>
         <div class="rp-sec"><div class="rp-sl">Cambiar etapa</div><div class="stage-chips">${chipsHTML}</div></div>
-        ${l.email?`<div class="rp-sec"><div class="rp-sl">Correo</div><div style="font-size:12px;color:var(--text);font-family:'JetBrains Mono',monospace">${l.email}</div></div>`:''}
+        ${l.email?`<div class="rp-sec"><div class="rp-sl">Correo</div><div style="font-size:12px;color:var(--text);font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:6px;flex-wrap:wrap">${l.email}<button class="copy-btn" onclick="copyField('${l.email}',this)" title="Copiar correo"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div></div>`:''}
         ${l.ciudad?`<div class="rp-sec"><div class="rp-sl">Ciudad</div><div style="font-size:13px;color:var(--text);font-weight:500">${l.ciudad}</div></div>`:''}
         ${l.mensaje?`<div class="rp-sec"><div class="rp-sl">Mensaje del lead</div><div style="font-size:12.5px;color:var(--text2);font-style:italic;line-height:1.5">"${l.mensaje}"</div></div>`:''}
-        <div class="rp-sec"><div class="rp-sl">Etiquetas</div><div class="rp-tags">${autoTagsHTML}${manualTagsHTML}</div></div>
+        <div class="rp-sec"><div class="rp-sl">Etiquetas</div><div class="rp-tags" id="tagsArea-${l.id}">${autoTagsHTML}${manualTagsHTML}${customTagsHTML}<button class="custom-tag-add" onclick="openAddTag(${l.id})">+ Nueva</button></div></div>
         <div class="rp-sec"><div class="rp-sl">Historial</div><div class="rp-hist">${histHTML}</div></div>
         <div class="rp-sec"><div class="rp-sl">Notas</div><textarea class="rp-notes" placeholder="Escribe tus notas aquí…" oninput="saveNoteLocal(${l.id},this.value)">${l.notes||''}</textarea></div>
+        ${l.stage==='ganado'?`<div class="rp-sec">
+          <div class="rp-sl">🧾 Comprobante de pago</div>
+          ${isAdmin&&l.comprobante?`<a class="comprobante-link" href="${l.comprobante}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver comprobante</a>`:!isAdmin?`<input class="comprobante-field" type="url" placeholder="Pega el enlace del comprobante…" value="${l.comprobante||''}" oninput="saveComprobante(${l.id},this.value)">`:l.comprobante?`<a class="comprobante-link" href="${l.comprobante}" target="_blank">Ver comprobante</a>`:`<span style="font-size:12px;color:var(--text3)">Pendiente</span>`}
+          ${isAdmin&&l.pendienteValidacion&&!l.validado?`<div style="font-size:12px;color:var(--amber);margin-top:6px;font-weight:600">⏳ Pendiente de validación</div>`:''}
+          ${isAdmin&&l.validado?`<div class="validado-banner">✅ Venta validada</div>`:''}
+          ${!isAdmin&&l.validado?`<div class="validado-banner">✅ Venta validada por el admin</div>`:''}
+          ${!isAdmin&&l.pendienteValidacion&&!l.validado?`<div class="pendiente-banner">⏳ Enviado al admin para validar</div>`:''}
+        </div>`:''}
       </div>
       <div class="rp-cta">
+        ${isAdmin&&l.stage==='ganado'&&l.pendienteValidacion&&!l.validado?`<button class="btn-validar" onclick="validateLead(${l.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Validar venta ganada</button>`:''}
         <button class="cta-wa" onclick="openWA('${l.phone}','${l.name}')" ${!waNum?'disabled style="opacity:.5"':''}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
           Escribir por WhatsApp
@@ -1988,9 +2066,17 @@ window.qa = async function(id,action,btnEl){
 window.setLeadStage = async function(id,stage){
   const st=getState(id);const l=allLeads.find(x=>x.id===id);const t=nowTime();
   st.stage=stage;
-  if(stage==='ganado'){st.score=100;st.intensity='fire'}
-  else if(stage==='perdido'){st.score=0;st.intensity='cold'}
-  else{st.score=calcFinalScore(stage,st.intensity,l?.baseScore||50)}
+  if(stage==='ganado'){
+    st.score=100;st.intensity='fire';
+    if(!isAdmin){st.pendienteValidacion=true;st.validado=false;}
+    else{st.pendienteValidacion=false;st.validado=true;}
+  } else if(stage==='perdido'){
+    st.score=0;st.intensity='cold';
+    st.pendienteValidacion=false;
+  } else {
+    st.score=calcFinalScore(stage,st.intensity,l?.baseScore||50);
+    st.pendienteValidacion=false;
+  }
   st.history.push({dot:'p',text:`Etapa → ${STAGES[stage]?.label||stage}`,time:t});
   await saveState(id,st);
   updateAll();
@@ -2004,6 +2090,236 @@ window.toggleTag = async function(id,tagId){
   if(i>-1)st.tags.splice(i,1);else st.tags.push(tagId);
   await saveState(id,st);
   renderDetail(cl(myLeads.find(x=>x.id===id)));
+}
+
+/* ══════════════════════════════════════════
+   COPY FIELD
+══════════════════════════════════════════ */
+window.copyField = function(text,btn){
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('copied');
+    const orig=btn.innerHTML;
+    btn.innerHTML='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},1500);
+  }).catch(()=>alert('No se pudo copiar.'));
+}
+
+/* ══════════════════════════════════════════
+   CUSTOM TAGS
+══════════════════════════════════════════ */
+let _addTagLeadId = null;
+window.openAddTag = function(leadId){
+  _addTagLeadId = leadId;
+  const area = document.getElementById(`tagsArea-${leadId}`);
+  if(!area) return;
+  // Remove existing form if present
+  const old = area.querySelector('.ctag-form');
+  if(old){old.remove();return;}
+  const CLS_OPTIONS = [{cls:'g',color:'#22c55e'},{cls:'r',color:'#ff4d2e'},{cls:'b',color:'#4d9ef5'},{cls:'p',color:'#a855f7'}];
+  let selCls = 'g';
+  const form = document.createElement('div');
+  form.className='ctag-form';
+  form.style.width='100%';
+  form.innerHTML=`
+    <input class="ctag-input" id="ctagInput" placeholder="Nombre etiqueta…" maxlength="20" autocomplete="off">
+    ${CLS_OPTIONS.map(o=>`<button class="ctag-cls-btn${o.cls===selCls?' sel':''}" data-cls="${o.cls}" style="background:${o.color}" onclick="event.preventDefault();selectCtagCls('${o.cls}',this)" title="${o.cls}"></button>`).join('')}
+    <button class="ctag-save" onclick="saveCustomTag()">✓</button>
+    <button class="ctag-cancel" onclick="this.closest('.ctag-form').remove()">✕</button>
+  `;
+  area.appendChild(form);
+  setTimeout(()=>form.querySelector('#ctagInput')?.focus(),50);
+}
+window.selectCtagCls = function(cls,btn){
+  document.querySelectorAll('.ctag-cls-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  btn._cls = cls;
+  window._ctagSelCls = cls;
+}
+window._ctagSelCls = 'g';
+window.saveCustomTag = async function(){
+  const inp = document.getElementById('ctagInput');
+  const label = inp?.value.trim();
+  if(!label){inp?.focus();return;}
+  const cls = window._ctagSelCls||'g';
+  const id = 'ct-'+Date.now();
+  const tag = {id,label,cls,createdBy:closerName};
+  customTags.push(tag);
+  try{
+    await updateDoc(doc(db,'workspaces',workspaceId),{customTags});
+  }catch(e){console.error(e);}
+  if(_addTagLeadId){
+    const st=getState(_addTagLeadId);
+    st.tags=st.tags||[];
+    st.tags.push(id);
+    await saveState(_addTagLeadId,st);
+    renderDetail(cl(myLeads.find(x=>x.id===_addTagLeadId)));
+  }
+}
+
+/* ══════════════════════════════════════════
+   COMPROBANTE
+══════════════════════════════════════════ */
+let comprobanteTimer=null;
+window.saveComprobante = function(id,val){
+  const st=getState(id);
+  st.comprobante=val;
+  leadState[id]=st;
+  clearTimeout(comprobanteTimer);
+  comprobanteTimer=setTimeout(()=>saveState(id,st),700);
+}
+
+/* ══════════════════════════════════════════
+   VALIDATE LEAD (ADMIN)
+══════════════════════════════════════════ */
+window.validateLead = async function(id){
+  const st=getState(id);
+  const l=allLeads.find(x=>x.id===id);
+  st.validado=true;
+  st.pendienteValidacion=false;
+  st.history.push({dot:'g',text:'✅ Venta validada por admin',time:nowTime()});
+  await saveState(id,st);
+  // Guardar notificacion para el vendedor
+  const notif={id:'n-'+Date.now(),vendedor:l?.vendor||'',leadId:id,msg:`Tu venta de ${l?.name||'lead'} fue validada ✅`,leida:false,ts:Date.now()};
+  wsNotifications.push(notif);
+  try{
+    await updateDoc(doc(db,'workspaces',workspaceId),{notificaciones:wsNotifications});
+  }catch(e){console.error(e);}
+  updateAll();
+  renderDetail(cl(myLeads.find(x=>x.id===id)));
+  updateNotifBadge();
+}
+
+/* ══════════════════════════════════════════
+   NOTIF BADGE
+══════════════════════════════════════════ */
+function updateNotifBadge(){
+  // Admin: pending validations count
+  const pendBadge=document.getElementById('pendValidBadge');
+  if(isAdmin&&pendBadge){
+    const pending=Object.values(leadState).filter(s=>s.pendienteValidacion&&!s.validado).length;
+    pendBadge.textContent=pending;
+    pendBadge.style.display=pending>0?'inline-flex':'none';
+  }
+  // Vendor: unread notifications
+  const notifBadge=document.getElementById('notifBadge');
+  if(!isAdmin&&notifBadge){
+    const mine=wsNotifications.filter(n=>n.vendedor===closerName&&!n.leida);
+    notifBadge.textContent=mine.length;
+    notifBadge.style.display=mine.length>0?'inline-flex':'none';
+  }
+}
+window.markNotifsRead = async function(){
+  let changed=false;
+  wsNotifications.forEach(n=>{if(n.vendedor===closerName&&!n.leida){n.leida=true;changed=true;}});
+  if(changed){
+    try{ await updateDoc(doc(db,'workspaces',workspaceId),{notificaciones:wsNotifications}); }catch(e){}
+    updateNotifBadge();
+  }
+  // Show a simple list of notifications
+  const mine=wsNotifications.filter(n=>n.vendedor===closerName).slice(-10).reverse();
+  if(!mine.length){alert('No tienes notificaciones.');return;}
+  const msgs=mine.map(n=>(n.leida?'✓ ':'🔔 ')+n.msg).join('\n');
+  alert('Notificaciones:\n\n'+msgs);
+}
+
+/* ══════════════════════════════════════════
+   ADMIN DASHBOARD
+══════════════════════════════════════════ */
+window.openAdminDash = function(){
+  const el=document.getElementById('adminDashScreen');
+  if(!el) return;
+  el.classList.add('open');
+  // Populate vendor filter
+  const vsel=document.getElementById('dashVendor');
+  if(vsel){
+    const vendors=[...new Set(allLeads.map(l=>l.vendor).filter(Boolean))].sort();
+    vsel.innerHTML='<option value="">Todos</option>'+vendors.map(v=>`<option value="${v}">${v}</option>`).join('');
+  }
+  renderAdminDash();
+}
+window.closeAdminDash = function(){
+  const el=document.getElementById('adminDashScreen');
+  if(el) el.classList.remove('open');
+}
+window.clearDashFilters = function(){
+  ['dashVendor','dashStage','dashTemp','dashFrom','dashTo'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  renderAdminDash();
+}
+window.renderAdminDash = function(){
+  const vendor=document.getElementById('dashVendor')?.value||'';
+  const stage=document.getElementById('dashStage')?.value||'';
+  const temp=document.getElementById('dashTemp')?.value||'';
+  const from=document.getElementById('dashFrom')?.value||'';
+  const to=document.getElementById('dashTo')?.value||'';
+  // Build filtered list
+  let leads=allLeads.map(l=>cl(l));
+  if(vendor) leads=leads.filter(l=>l.vendor===vendor);
+  if(stage) leads=leads.filter(l=>l.stage===stage);
+  if(temp) leads=leads.filter(l=>l.intensity===temp);
+  if(from||to){
+    leads=leads.filter(l=>{
+      if(!l.fecha) return false;
+      // fecha format: DD/MM/YYYY or YYYY-MM-DD
+      let d=l.fecha;
+      if(d.includes('/')){const p=d.split('/');d=`${p[2]||'2024'}-${(p[1]||'01').padStart(2,'0')}-${(p[0]||'01').padStart(2,'0')}`;}
+      if(from&&d<from) return false;
+      if(to&&d>to) return false;
+      return true;
+    });
+  }
+  // Stats
+  const total=leads.length;
+  const fire=leads.filter(l=>l.intensity==='fire'&&l.stage!=='ganado'&&l.stage!=='perdido').length;
+  const warm=leads.filter(l=>l.intensity==='warm').length;
+  const cold=leads.filter(l=>l.intensity==='cold').length;
+  const ganados=leads.filter(l=>l.stage==='ganado').length;
+  const perdidos=leads.filter(l=>l.stage==='perdido').length;
+  const pendientes=leads.filter(l=>l.pendienteValidacion&&!l.validado).length;
+  const validados=leads.filter(l=>l.validado).length;
+  // Vendor breakdown
+  const vendorMap={};
+  leads.forEach(l=>{
+    const v=l.vendor||'Sin asignar';
+    if(!vendorMap[v]) vendorMap[v]={total:0,ganados:0,perdidos:0,fire:0};
+    vendorMap[v].total++;
+    if(l.stage==='ganado') vendorMap[v].ganados++;
+    if(l.stage==='perdido') vendorMap[v].perdidos++;
+    if(l.intensity==='fire'&&l.stage!=='ganado'&&l.stage!=='perdido') vendorMap[v].fire++;
+  });
+  const body=document.getElementById('dashBody');
+  if(!body) return;
+  if(!total){body.innerHTML='<div class="dash-empty">No hay leads con los filtros seleccionados.</div>';return;}
+  body.innerHTML=`
+    <div>
+      <div class="dash-section-title">Resumen general (${total} leads)</div>
+      <div class="dash-cards">
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--go)">${ganados}</div><div class="dash-card-l">Ganados</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--fire)">${fire}</div><div class="dash-card-l">🔥 Calientes</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--amber)">${warm}</div><div class="dash-card-l">🌡 Tibios</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--cold)">${cold}</div><div class="dash-card-l">❄️ Fríos</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--text3)">${perdidos}</div><div class="dash-card-l">Perdidos</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--amber)">${pendientes}</div><div class="dash-card-l">Pend. validar</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--go)">${validados}</div><div class="dash-card-l">Validados</div></div>
+        <div class="dash-card"><div class="dash-card-n" style="color:var(--text)">${total}</div><div class="dash-card-l">Total leads</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="dash-section-title">Por vendedor</div>
+      ${Object.entries(vendorMap).sort((a,b)=>b[1].ganados-a[1].ganados).map(([v,s])=>`
+        <div class="dash-vendor-row">
+          <div class="dash-vendor-name">${v}</div>
+          <div class="dash-vendor-stats">
+            <span class="dash-vendor-stat"><b style="color:var(--go)">${s.ganados}</b> ganados</span>
+            <span class="dash-vendor-stat"><b style="color:var(--fire)">${s.fire}</b> 🔥</span>
+            <span class="dash-vendor-stat"><b>${s.total}</b> leads</span>
+            <span class="dash-vendor-stat" style="${s.perdidos>0?'color:var(--fire)':''}">${s.perdidos>0?`<b>${s.perdidos}</b> perdidos`:''}</span>
+          </div>
+        </div>`).join('')}
+    </div>
+  `;
 }
 
 // Notes: debounced save to avoid too many writes
@@ -2399,7 +2715,7 @@ window.downloadTemplate = function(){
    SHOW/HIDE SCREENS
 ══════════════════════════════════════════ */
 function showOnly(id){
-  ['authScreen','wsScreen','uploadScreen','vendorScreen','wsCodeScreen','mainContent','empresaScreen','nombreScreen']
+  ['authScreen','wsScreen','uploadScreen','vendorScreen','wsCodeScreen','mainContent','empresaScreen','nombreScreen','adminDashScreen']
     .forEach(s=>{
       const el=document.getElementById(s);
       if(!el)return;
@@ -2440,6 +2756,47 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
+
+<!-- ══ ADMIN DASHBOARD ══ -->
+<div class="admin-dash-overlay" id="adminDashScreen">
+  <div class="admin-dash-hdr">
+    <span style="font-size:18px">📊</span>
+    <div class="admin-dash-title">Dashboard · Métricas</div>
+    <button class="admin-dash-close" onclick="closeAdminDash()">×</button>
+  </div>
+  <div class="admin-dash-filters" id="dashFilters">
+    <label>Vendedor:</label>
+    <select id="dashVendor" onchange="renderAdminDash()">
+      <option value="">Todos</option>
+    </select>
+    <label>Etapa:</label>
+    <select id="dashStage" onchange="renderAdminDash()">
+      <option value="">Todas</option>
+      <option value="nuevo">Nuevo</option>
+      <option value="contactado">Contactado</option>
+      <option value="calificado">Calificado</option>
+      <option value="interesado">Interesado</option>
+      <option value="cierre">En cierre</option>
+      <option value="ganado">Ganado</option>
+      <option value="perdido">Perdido</option>
+    </select>
+    <label>Temperatura:</label>
+    <select id="dashTemp" onchange="renderAdminDash()">
+      <option value="">Todas</option>
+      <option value="fire">🔥 Caliente</option>
+      <option value="warm">🌡 Tibio</option>
+      <option value="cold">❄️ Frío</option>
+    </select>
+    <label>Desde:</label>
+    <input type="date" id="dashFrom" onchange="renderAdminDash()">
+    <label>Hasta:</label>
+    <input type="date" id="dashTo" onchange="renderAdminDash()">
+    <button onclick="clearDashFilters()" style="padding:4px 10px;border-radius:var(--r3);border:1px solid var(--border2);background:transparent;color:var(--text3);font-family:'Bricolage Grotesque',sans-serif;font-size:11.5px;cursor:pointer;height:30px">Limpiar</button>
+  </div>
+  <div class="admin-dash-body" id="dashBody">
+    <div class="dash-empty">Cargando métricas…</div>
+  </div>
+</div>
 
 <!-- ══ ASISTENTE IA LEADRADAR ══ -->
 <div id="lrAIBubble" onclick="lrAIToggle()" title="Asistente de ventas IA">

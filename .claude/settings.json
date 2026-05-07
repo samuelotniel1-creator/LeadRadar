@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$s = git status --porcelain; if ($s) { git add -A; git commit -m 'auto: update via Claude Code'; git push origin main }",
+            "timeout": 60,
+            "statusMessage": "Subiendo cambios a GitHub..."
+          }
+        ]
+      }
+    ]
+  }
+}
