@@ -1860,7 +1860,7 @@ function renderDetail(l){
         <div class="rp-sec"><div class="rp-sl">Notas</div><textarea class="rp-notes" placeholder="Escribe tus notas aquí…" oninput="saveNoteLocal(${l.id},this.value)">${l.notes||''}</textarea></div>
         ${l.stage==='ganado'?`<div class="rp-sec">
           <div class="rp-sl">🧾 Comprobante de pago</div>
-          ${isAdmin&&l.comprobante?`<a class="comprobante-link" href="${l.comprobante}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver comprobante</a>`:!isAdmin?`<input class="comprobante-field" type="url" placeholder="Pega el enlace del comprobante…" value="${l.comprobante||''}" oninput="saveComprobante(${l.id},this.value)">`:l.comprobante?`<a class="comprobante-link" href="${l.comprobante}" target="_blank">Ver comprobante</a>`:`<span style="font-size:12px;color:var(--text3)">Pendiente</span>`}
+          ${isAdmin&&l.comprobante?`<a class="comprobante-link" href="${l.comprobante}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Ver comprobante</a>`:isAdmin?`<span style="font-size:12px;color:var(--text3)">Pendiente</span>`:(!l.pendienteValidacion&&!l.validado)?`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input class="comprobante-field" type="url" id="comprobanteInput-${l.id}" placeholder="Pega el enlace del comprobante…" value="${l.comprobante||''}"><button style="padding:5px 14px;border-radius:var(--r3);border:none;background:var(--amber);color:#000;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap" onclick="submitComprobante(${l.id})">Enviar</button></div>`:''}
           ${isAdmin&&l.pendienteValidacion&&!l.validado?`<button class="btn-validar" onclick="validateLead(${l.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Validar venta ganada</button>`:''}
           ${isAdmin&&l.validado?`<div class="validado-banner">✅ Venta validada</div>`:''}
           ${!isAdmin&&l.validado?`<div class="validado-banner">✅ Venta validada por el admin</div>`:''}
@@ -2167,6 +2167,16 @@ window.saveComprobante = function(id,val){
   clearTimeout(comprobanteTimer);
   comprobanteTimer=setTimeout(()=>saveState(id,st),700);
 }
+window.submitComprobante = async function(id){
+  const input=document.getElementById(`comprobanteInput-${id}`);
+  const val=input?input.value.trim():'';
+  const st=getState(id);
+  st.comprobante=val;
+  st.pendienteValidacion=true;
+  leadState[id]=st;
+  await saveState(id,st);
+  renderDetail(id);
+}
 
 /* ══════════════════════════════════════════
    VALIDATE LEAD (ADMIN)
@@ -2243,7 +2253,7 @@ window.closeAdminDash = function(){
   if(el) el.style.display='none';
 }
 window.clearDashFilters = function(){
-  ['dashVendor','dashStage','dashTemp','dashFrom','dashTo'].forEach(id=>{
+  ['dashVendor','dashStage','dashTemp','dashPending','dashFrom','dashTo'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
   renderAdminDash();
@@ -2252,6 +2262,7 @@ window.renderAdminDash = function(){
   const vendor=document.getElementById('dashVendor')?.value||'';
   const stage=document.getElementById('dashStage')?.value||'';
   const temp=document.getElementById('dashTemp')?.value||'';
+  const pending=document.getElementById('dashPending')?.value||'';
   const from=document.getElementById('dashFrom')?.value||'';
   const to=document.getElementById('dashTo')?.value||'';
   // Build filtered list
@@ -2259,6 +2270,8 @@ window.renderAdminDash = function(){
   if(vendor) leads=leads.filter(l=>l.vendor===vendor);
   if(stage) leads=leads.filter(l=>l.stage===stage);
   if(temp) leads=leads.filter(l=>l.intensity===temp);
+  if(pending==='pending') leads=leads.filter(l=>l.pendienteValidacion&&!l.validado);
+  if(pending==='validated') leads=leads.filter(l=>l.validado);
   if(from||to){
     leads=leads.filter(l=>{
       if(!l.fecha) return false;
@@ -2786,6 +2799,12 @@ if('serviceWorker' in navigator){
       <option value="fire">🔥 Caliente</option>
       <option value="warm">🌡 Tibio</option>
       <option value="cold">❄️ Frío</option>
+    </select>
+    <label>Validación:</label>
+    <select id="dashPending" onchange="renderAdminDash()">
+      <option value="">Todos</option>
+      <option value="pending">⏳ Pendientes</option>
+      <option value="validated">✅ Validados</option>
     </select>
     <label>Desde:</label>
     <input type="date" id="dashFrom" onchange="renderAdminDash()">
