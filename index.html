@@ -1336,6 +1336,7 @@ function subscribeToWorkspace(){
     const states   = data.leadStates || {};
     customTags     = data.customTags || [];
     wsNotifications = data.notificaciones || [];
+    comisiones     = data.comisiones || {};
     updateNotifBadge();
     empresaNombre  = data.empresaNombre || ''; window._empresaNombre = empresaNombre;
     empresaDesc    = data.empresaDesc   || '';   window._empresaDesc   = empresaDesc;
@@ -1550,6 +1551,7 @@ function updateCmd(){
 ══════════════════════════════════════════ */
 let adminFilterVendor='', adminFilterTemp='', adminFilterRecent='', adminFilterTag='', adminFilterEvent='';
 let filterPendingValidation=false;
+let comisiones={};
 
 function buildAdminVendorFilter(){
   if(!isAdmin) return;
@@ -2323,9 +2325,9 @@ window.renderAdminDash = function(){
   const vendorMap={};
   leads.forEach(l=>{
     const v=l.vendor||'Sin asignar';
-    if(!vendorMap[v]) vendorMap[v]={total:0,ganados:0,perdidos:0,fire:0,warm:0,cold:0};
+    if(!vendorMap[v]) vendorMap[v]={total:0,ganados:0,perdidos:0,validados:0,fire:0,warm:0,cold:0};
     vendorMap[v].total++;
-    if(l.stage==='ganado') vendorMap[v].ganados++;
+    if(l.stage==='ganado'){vendorMap[v].ganados++;if(l.validado)vendorMap[v].validados++;}
     else if(l.stage==='perdido') vendorMap[v].perdidos++;
     else if(l.intensity==='fire') vendorMap[v].fire++;
     else if(l.intensity==='warm') vendorMap[v].warm++;
@@ -2354,8 +2356,11 @@ window.renderAdminDash = function(){
         const pGan=s.total?Math.round(s.ganados/s.total*100):0;
         const pPer=s.total?Math.round(s.perdidos/s.total*100):0;
         const activos=s.total-s.ganados-s.perdidos;
+        const monto=comisiones[v]||0;
+        const totalPago=monto*s.validados;
+        const vSafe=v.replace(/'/g,"\\'");
         return `
-        <div class="dash-vendor-row" style="flex-direction:column;align-items:stretch;gap:6px">
+        <div class="dash-vendor-row" style="flex-direction:column;align-items:stretch;gap:6px" data-vendor="${v.replace(/"/g,'&quot;')}" data-total="${s.total}" data-ganados="${s.ganados}" data-perdidos="${s.perdidos}" data-validados="${s.validados}">
           <div style="display:flex;align-items:center;justify-content:space-between">
             <div class="dash-vendor-name">${v}</div>
             <div style="font-size:11px;color:var(--text3)">${s.total} leads total</div>
@@ -2370,9 +2375,87 @@ window.renderAdminDash = function(){
             <span class="dash-vendor-stat"><b style="color:var(--amber)">${s.warm}</b> 🌡 tibios</span>
             <span class="dash-vendor-stat"><b style="color:var(--cold)">${s.cold}</b> ❄️ fríos</span>
           </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:6px;border-top:1px solid var(--border)">
+            <span style="font-size:11px;color:var(--text3)">💰 Comisión/venta $</span>
+            <input type="number" class="com-input" value="${monto||''}" placeholder="0" min="0"
+              style="width:90px;padding:3px 7px;border-radius:var(--r3);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none"
+              oninput="updateComisionDisplay(this)"
+              onblur="saveComision('${vSafe}',this.value)">
+            <span style="font-size:11px;color:var(--text3)">× <b>${s.validados}</b> validadas =</span>
+            <span class="com-total" style="font-size:14px;font-weight:700;color:var(--go)">$${totalPago.toLocaleString('es-MX')}</span>
+          </div>
         </div>`;}).join('')}
     </div>
   `;
+}
+
+/* ══════════════════════════════════════════
+   COMISIONES
+══════════════════════════════════════════ */
+window.toggleComTipo = function(){
+  const tipo=document.getElementById('comTipo')?.value;
+  document.getElementById('comFijoFields').style.display=tipo==='fijo'?'flex':'none';
+  document.getElementById('comPctFields').style.display=tipo==='pct'?'flex':'none';
+}
+window.updateComisionDisplay = function(input){
+  const row=input.closest('.dash-vendor-row');
+  if(!row) return;
+  const validados=parseInt(row.dataset.validados)||0;
+  const monto=parseFloat(input.value)||0;
+  const totalEl=row.querySelector('.com-total');
+  if(totalEl) totalEl.textContent='$'+(validados*monto).toLocaleString('es-MX');
+  comisiones[row.dataset.vendor]=monto;
+}
+window.saveComision = async function(vendor,val){
+  comisiones[vendor]=parseFloat(val)||0;
+  try{await updateDoc(doc(db,'workspaces',workspaceId),{comisiones});}catch(e){console.error(e)}
+}
+window.aplicarComisionATodos = async function(){
+  const tipo=document.getElementById('comTipo')?.value||'fijo';
+  const montoFijo=parseFloat(document.getElementById('comMontoAll')?.value)||0;
+  const precio=parseFloat(document.getElementById('comPrecioAll')?.value)||0;
+  const pct=parseFloat(document.getElementById('comPctAll')?.value)||0;
+  const calc=tipo==='pct'?Math.round(precio*pct/100):montoFijo;
+  document.querySelectorAll('.com-input').forEach(inp=>{
+    inp.value=calc;
+    const row=inp.closest('.dash-vendor-row');
+    if(!row) return;
+    const vendor=row.dataset.vendor;
+    const validados=parseInt(row.dataset.validados)||0;
+    comisiones[vendor]=calc;
+    const totalEl=row.querySelector('.com-total');
+    if(totalEl) totalEl.textContent='$'+(validados*calc).toLocaleString('es-MX');
+  });
+  try{await updateDoc(doc(db,'workspaces',workspaceId),{comisiones});}catch(e){console.error(e)}
+}
+window.exportarComisiones = function(){
+  const rows=document.querySelectorAll('.dash-vendor-row[data-vendor]');
+  if(!rows.length){alert('No hay datos de vendedores para exportar.');return;}
+  const desde=document.getElementById('dashFrom')?.value||'';
+  const hasta=document.getElementById('dashTo')?.value||'';
+  const lines=[['Vendedor','Total leads','Ganados (%)','Perdidos (%)','Ventas validadas','Comisión/venta ($)','Total a pagar ($)'].join(',')];
+  let grandTotal=0;
+  rows.forEach(row=>{
+    const v=row.dataset.vendor;
+    const tot=parseInt(row.dataset.total)||0;
+    const gan=parseInt(row.dataset.ganados)||0;
+    const per=parseInt(row.dataset.perdidos)||0;
+    const val=parseInt(row.dataset.validados)||0;
+    const monto=comisiones[v]||0;
+    const pago=monto*val;
+    grandTotal+=pago;
+    const pGan=tot?Math.round(gan/tot*100):0;
+    const pPer=tot?Math.round(per/tot*100):0;
+    lines.push([`"${v}"`,tot,`${gan} (${pGan}%)`,`${per} (${pPer}%)`,val,monto,pago].join(','));
+  });
+  lines.push(['','','','','','TOTAL',(grandTotal).toLocaleString('es-MX')].join(','));
+  const blob=new Blob(['﻿'+lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`comisiones${desde?'-'+desde:''}${hasta?'-al-'+hasta:''}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // Notes: debounced save to avoid too many writes
@@ -2851,6 +2934,25 @@ if('serviceWorker' in navigator){
     <label>Hasta:</label>
     <input type="date" id="dashTo" onchange="renderAdminDash()">
     <button onclick="clearDashFilters()" style="padding:4px 10px;border-radius:var(--r3);border:1px solid var(--border2);background:transparent;color:var(--text3);font-family:'Bricolage Grotesque',sans-serif;font-size:11.5px;cursor:pointer;height:30px">Limpiar</button>
+  </div>
+  <div id="comisionBar" style="display:flex;align-items:center;gap:8px;padding:8px 18px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;background:rgba(245,158,11,.04)">
+    <span style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.3px;flex-shrink:0">💰 COMISIONES</span>
+    <select id="comTipo" onchange="toggleComTipo()" style="background:var(--surface);border:1px solid var(--border2);color:var(--text2);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;padding:4px 8px;border-radius:var(--r3);outline:none;cursor:pointer">
+      <option value="fijo">$ Monto fijo por venta</option>
+      <option value="pct">% del precio de venta</option>
+    </select>
+    <div id="comFijoFields" style="display:flex;gap:6px;align-items:center">
+      <input type="number" id="comMontoAll" placeholder="Ej: 500" min="0" style="width:100px;padding:4px 8px;border-radius:var(--r3);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none">
+    </div>
+    <div id="comPctFields" style="display:none;gap:6px;align-items:center">
+      <span style="font-size:11px;color:var(--text3)">Precio $</span>
+      <input type="number" id="comPrecioAll" placeholder="Ej: 5000" min="0" style="width:100px;padding:4px 8px;border-radius:var(--r3);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none">
+      <span style="font-size:11px;color:var(--text3)">×</span>
+      <input type="number" id="comPctAll" placeholder="%" min="0" max="100" style="width:65px;padding:4px 8px;border-radius:var(--r3);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none">
+      <span style="font-size:11px;color:var(--text3)">%</span>
+    </div>
+    <button onclick="aplicarComisionATodos()" style="padding:4px 12px;border-radius:var(--r3);border:1px solid rgba(245,158,11,.4);background:rgba(245,158,11,.1);color:var(--amber);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;cursor:pointer">Aplicar a todos</button>
+    <button onclick="exportarComisiones()" style="display:flex;align-items:center;gap:5px;padding:4px 12px;border-radius:var(--r3);border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.08);color:var(--go);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;cursor:pointer;margin-left:auto">📥 Exportar reporte</button>
   </div>
   <div class="admin-dash-body" id="dashBody">
     <div class="dash-empty">Cargando métricas…</div>
